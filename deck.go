@@ -11,6 +11,22 @@ const (
 	D                 // Diamond
 )
 
+const (
+	_2 Index = iota + 1
+	_3
+	_4
+	_5
+	_6
+	_7
+	_8
+	_9
+	_10
+	_J
+	_Q
+	_K
+	_A
+)
+
 func SuitEnumerate() []Suit {
 	var res []Suit
 	for i := S; i <= D; i++ {
@@ -23,10 +39,18 @@ func (s Suit) String() string {
 	return [...]string{"S", "H", "C", "D"}[s-1]
 }
 
-type Index string
+type Index int
+
+func (i Index) String() string {
+	return [...]string{"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"}[i-1]
+}
 
 func IndexEnumerate() []Index {
-	return []Index{"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"}
+	var res []Index
+	for i := _2; i <= _A; i++ {
+		res = append(res, i)
+	}
+	return res
 }
 
 type Card struct {
@@ -41,8 +65,9 @@ type Deck struct {
 func (d Deck) String() string {
 	res := ""
 	for i, card := range d.Cards {
+		res += fmt.Sprintf("%s%s", card.Index, card.Suit)
 		if i%13 != 12 {
-			res += fmt.Sprintf("%s%s\t", card.Index, card.Suit)
+			res += "\t"
 		} else {
 			res += "\n"
 		}
@@ -61,5 +86,9 @@ func NewDeck() *Deck {
 }
 
 func (d *Deck) Rm(c Card) {
-
+	for i, card := range d.Cards {
+		if card.Suit == c.Suit && card.Index == c.Index {
+			d.Cards = append(d.Cards[:i], d.Cards[i+1:]...)
+		}
+	}
 }

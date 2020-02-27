@@ -14,11 +14,11 @@ func TestNewDeck(t *testing.T) {
 
 func TestRemoveCard(t *testing.T) {
 	deck := NewDeck()
-	card := Card{Suit: S, Index: "A"}
+	card := Card{Suit: S, Index: _A}
 	deck.Rm(card)
 
 	for _, d := range deck.Cards {
-		if d.Suit == S && d.Index == "A" {
+		if d.Suit == S && d.Index == _A {
 			t.Error("Card is still present in the deck")
 		}
 	}
