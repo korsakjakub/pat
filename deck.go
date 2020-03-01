@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
 
 type Suit int
 
@@ -91,4 +95,28 @@ func (d *Deck) Rm(c Card) {
 			d.Cards = append(d.Cards[:i], d.Cards[i+1:]...)
 		}
 	}
+}
+
+func (d *Deck) Draw(n int) Deck {
+	// it's important to first draw the cards, then remove them, not in the oposite order
+	drawn_cards := Deck{Cards: d.Cards[52-n:]}
+	d.Cards = d.Cards[:len(d.Cards)-n]
+	return drawn_cards
+}
+
+func (d *Deck) Shuffle(s ...int64) {
+	seed := int64(0)
+	if len(s) == 0 {
+		seed = time.Now().UnixNano()
+	} else if len(s) >= 2 {
+		for _, el := range s {
+			seed += el
+		}
+		seed /= 2
+	} else {
+		seed = s[0]
+	}
+	c := d.Cards
+	rand.Seed(seed)
+	rand.Shuffle(len(c), func(i, j int) { c[i], c[j] = c[j], c[i] })
 }
