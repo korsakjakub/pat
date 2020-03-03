@@ -1,4 +1,4 @@
-package pkg // import github.com/korsakjakub/pat/pkg
+package pat
 
 import "errors"
 

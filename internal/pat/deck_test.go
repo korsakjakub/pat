@@ -1,7 +1,6 @@
-package tests // import github.com/korsakjakub/pat/tests
+package pat
 
 import (
-	"github.com/korsakjakub/pat/pkg"
 	"testing"
 )
 
