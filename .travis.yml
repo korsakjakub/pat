@@ -1,7 +1,21 @@
 language: go
 
 go:
-    - release
+    - 1.13
+    - 1.12
+    - 1.11
+    - 1.10
+    - 1.9
+
+before_install:
+    - sudo apt-get update -qq > apt-get.out 2>&1 || (cat apt-get.out && exit 1)
 
 script:
     - go test -v ./...
+
+notifications:
+    email:
+        recipients:
+            - jakub.korsak@protonmail.com
+        on_success: change
+        on_failure: always
