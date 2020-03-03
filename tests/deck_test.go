@@ -1,8 +1,8 @@
-package main
+package tests // import github.com/korsakjakub/pat/tests
 
 import (
+	"github.com/korsakjakub/pat/pkg"
 	"testing"
-	//"time"
 )
 
 func TestNewDeck(t *testing.T) {

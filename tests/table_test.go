@@ -1,6 +1,9 @@
-package main
+package tests // import github.com/korsakjakub/pat/tests
 
-import "testing"
+import (
+	"github.com/korsakjakub/pat/pkg"
+	"testing"
+)
 
 func TestNewTable(t *testing.T) {
 	p1, _ := NewPlayer("jakub", 1000.0, Settings{})

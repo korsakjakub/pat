@@ -1,6 +1,9 @@
-package main
+package tests // import github.com/korsakjakub/pat/tests
 
-import "testing"
+import (
+	"github.com/korsakjakub/pat/pkg"
+	"testing"
+)
 
 func TestNewPlayer(t *testing.T) {
 	sett := Settings{StartingChips: 1000}
