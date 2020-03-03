@@ -19,6 +19,7 @@ type Player struct {
 	cards Deck
 }
 
+// Generate a new Player with chips taken either explicitly (via the chips argument) or implicitly (set in settings)
 func NewPlayer(name string, chips float64, settings Settings) (*Player, error) {
 
 	var err error
@@ -31,10 +32,12 @@ func NewPlayer(name string, chips float64, settings Settings) (*Player, error) {
 	return &Player{name: name, chips: chips}, err
 }
 
+// Player string representation
 func (p *Player) String() string {
 	return fmt.Sprintf("name: %s, chips: %f, cards: %s", p.name, p.chips, p.cards)
 }
 
+// Values that help construct the table
 type Settings struct {
 	Ante          float64
 	Dealer        Player
