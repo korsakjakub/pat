@@ -2,7 +2,7 @@ package pat
 
 import "errors"
 
-// A structural representation of a physical Poker Table
+// Table - A structural representation of a physical Poker Table
 type Table struct {
 	Players    []Player
 	TableCards Deck

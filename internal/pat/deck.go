@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Possible suits of standard playing cards
+// Suit - Possible suits of standard playing cards
 type Suit int
 
 // Spades, Hearts, Clubs, Diamonds
@@ -17,7 +17,7 @@ const (
 	D                 // Diamond
 )
 
-// Possible indices of standard playing cards
+// Index - Possible indices of standard playing cards
 type Index int
 
 // All card faces from 2, to an Ace
@@ -65,7 +65,7 @@ func IndexEnumerate() []Index {
 	return res
 }
 
-// A playing Card is clearly mapped by a pair (Suit, Index)
+// Card - A playing Card is clearly mapped by a pair (Suit, Index)
 type Card struct {
 	Suit  Suit
 	Index Index
