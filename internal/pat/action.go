@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// Action: Possible actions for a Player
+// Action - Possible actions for a Player
 type Action int
 
 // Fold - folds (give out cards), Check - wait for the next card, but don't bring in new chips, Raise - wait for the next card, and bring in new chips.
@@ -15,14 +15,14 @@ const (
 	Raise
 )
 
-// Player: A structural representation of a physical Player
+// Player - A structural representation of a physical Player
 type Player struct {
 	name  string
 	chips float64
 	cards Deck
 }
 
-// NewPlayer: Generate a new Player with chips taken either explicitly (via the chips argument) or implicitly (set in settings)
+// NewPlayer - Generate a new Player with chips taken either explicitly (via the chips argument) or implicitly (set in settings)
 func NewPlayer(name string, chips float64, settings Settings) (*Player, error) {
 
 	var err error
