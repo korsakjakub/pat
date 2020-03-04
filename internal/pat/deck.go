@@ -9,6 +9,7 @@ import (
 // Possible suits of standard playing cards
 type Suit int
 
+// Spades, Hearts, Clubs, Diamonds
 const (
 	S Suit = iota + 1 // Spade
 	H                 // Heart
@@ -19,6 +20,7 @@ const (
 // Possible indices of standard playing cards
 type Index int
 
+// All card faces from 2, to an Ace
 const (
 	_2 Index = iota + 2
 	_3
@@ -35,7 +37,7 @@ const (
 	_A
 )
 
-// Gives all suits as a slice
+// SuitEnumerate gives all suits as a slice
 func SuitEnumerate() []Suit {
 	var res []Suit
 	for i := S; i <= D; i++ {
@@ -54,7 +56,7 @@ func (i Index) String() string {
 	return [...]string{"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"}[i-2]
 }
 
-// Gives all indices as a slice
+// IndexEnumerate gives all indices as a slice
 func IndexEnumerate() []Index {
 	var res []Index
 	for i := _2; i <= _A; i++ {
@@ -88,7 +90,7 @@ func (d Deck) String() string {
 	return res
 }
 
-// Generate a new Deck with standard order [low -> high] [spades -> hearts -> clubs -> diamonds]
+// NewDeck generates a new Deck with standard order [low -> high] [spades -> hearts -> clubs -> diamonds]
 func NewDeck() *Deck {
 	cards := []Card{}
 	for _, suit := range SuitEnumerate() {
@@ -99,7 +101,7 @@ func NewDeck() *Deck {
 	return &Deck{cards}
 }
 
-// Remove a Card from Deck. The resulting Deck should consist of n-1 cards, if the input Deck had n (any Deck can only be a permutation of a standard Deck).
+// Rm (remove) a Card from Deck. The resulting Deck should consist of n-1 cards, if the input Deck had n (any Deck can only be a permutation of a standard Deck).
 func (d *Deck) Rm(c Card) {
 	for i, card := range d.Cards {
 		if card.Suit == c.Suit && card.Index == c.Index {
@@ -110,10 +112,10 @@ func (d *Deck) Rm(c Card) {
 
 // Draw n cards from the top. The resulting Deck should have L - n cards, where L denotes the amount of cards before the draw.
 func (d *Deck) Draw(n int) Deck {
-	// it's important to first draw the cards, then remove them, not in the oposite order
-	drawn_cards := Deck{Cards: d.Cards[len(d.Cards)-n:]}
+	// it's important to first draw the cards, then remove them, not in the opposite order
+	drawnCards := Deck{Cards: d.Cards[len(d.Cards)-n:]}
 	d.Cards = d.Cards[:len(d.Cards)-n]
-	return drawn_cards
+	return drawnCards
 }
 
 // Shuffle the Deck. Note: it should always generate a permutation of the input Deck.

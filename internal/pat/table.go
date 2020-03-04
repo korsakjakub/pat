@@ -2,6 +2,7 @@ package pat
 
 import "errors"
 
+// A structural representation of a physical Poker Table
 type Table struct {
 	Players    []Player
 	TableCards Deck
@@ -9,7 +10,7 @@ type Table struct {
 	Settings   Settings
 }
 
-// Generate a new Table with at least one player in it
+// NewTable generates a new Table with at least one player in it
 func NewTable(p []Player, s Settings) (*Table, error) {
 	var err error
 	if len(p) < 1 {

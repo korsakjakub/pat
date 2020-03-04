@@ -5,21 +5,24 @@ import (
 	"fmt"
 )
 
+// Action: Possible actions for a Player
 type Action int
 
+// Fold - folds (give out cards), Check - wait for the next card, but don't bring in new chips, Raise - wait for the next card, and bring in new chips.
 const (
 	Fold Action = iota
 	Check
 	Raise
 )
 
+// Player: A structural representation of a physical Player
 type Player struct {
 	name  string
 	chips float64
 	cards Deck
 }
 
-// Generate a new Player with chips taken either explicitly (via the chips argument) or implicitly (set in settings)
+// NewPlayer: Generate a new Player with chips taken either explicitly (via the chips argument) or implicitly (set in settings)
 func NewPlayer(name string, chips float64, settings Settings) (*Player, error) {
 
 	var err error
@@ -37,7 +40,7 @@ func (p *Player) String() string {
 	return fmt.Sprintf("name: %s, chips: %f, cards: %s", p.name, p.chips, p.cards)
 }
 
-// Values that help construct the table
+// Settings that help construct the table
 type Settings struct {
 	Ante          float64
 	Dealer        Player
