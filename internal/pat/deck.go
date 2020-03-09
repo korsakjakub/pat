@@ -71,6 +71,11 @@ type Card struct {
 	Index Index
 }
 
+// NewCard returns a card when given a suit and an index.
+func NewCard(suit Suit, index Index) Card {
+	return Card{Suit: suit, Index: index}
+}
+
 // A Deck is a slice of Cards
 type Deck struct {
 	Cards []Card

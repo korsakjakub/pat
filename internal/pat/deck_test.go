@@ -50,3 +50,11 @@ func TestDraw(t *testing.T) {
 	}
 	t.Logf("new deck:\n%s\n", deck)
 }
+
+func TestNewCard(t *testing.T) {
+	want := Card{Index: _J, Suit: S}
+	got := NewCard(S, _J)
+	if got.Suit != want.Suit || got.Index != want.Index {
+		t.Errorf("didn't get the card. Got %s, expected %s\n", got, want)
+	}
+}
