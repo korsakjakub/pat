@@ -18,6 +18,6 @@ func NewTable(p []Player, s Settings) (*Table, error) {
 	}
 	return &Table{Players: p,
 		TableCards: Deck{},
-		Deck:       *NewDeck(),
+		Deck:       NewDeck(),
 		Settings:   s}, err
 }
