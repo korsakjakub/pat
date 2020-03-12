@@ -54,10 +54,42 @@ func TestWinningHand(t *testing.T) {
 }
 
 func TestMapCardOccurrences(t *testing.T) {
-	cards := []Card{NewCard(S, _2), NewCard(D, _2), NewCard(C, _2), NewCard(H, _2), Card{}}
+	var test_values = []struct {
+		cards    Deck // input from player
+		position Index
+		amount   int // output
+	}{
+		{
+			Deck([]Card{NewCard(S, _2), NewCard(D, _2), NewCard(C, _2), NewCard(H, _2), NewCard(H, _4)}),
+			_2,
+			4,
+		},
+		{
+			Deck([]Card{NewCard(S, _K), NewCard(D, _2), NewCard(C, _K), NewCard(H, _K), NewCard(H, _5)}),
+			_K,
+			3,
+		},
+		{
+			Deck([]Card{NewCard(S, _J), NewCard(D, _2), NewCard(C, _J), NewCard(H, _3), NewCard(H, _5)}),
+			_J,
+			2,
+		},
+		{ // next 2 check full house
+			Deck([]Card{NewCard(S, _J), NewCard(D, _3), NewCard(C, _J), NewCard(H, _3), NewCard(S, _3)}),
+			_J,
+			2,
+		},
+		{
+			Deck([]Card{NewCard(S, _J), NewCard(D, _3), NewCard(C, _J), NewCard(H, _3), NewCard(S, _3)}),
+			_3,
+			3,
+		},
+	}
 
-	got := mapCardOccurrences(cards)
-	if got[_2] != 4 {
-		t.Errorf("didnt get the map i wanted. Got %d, wanted %s\n", got[_2], "4")
+	for _, e := range test_values {
+		got := mapCardOccurrences(e.cards)
+		if got[e.position] != e.amount {
+			t.Errorf("didnt get the map i wanted. Got %v, wanted %d\n", got[e.position], e.amount)
+		}
 	}
 }
