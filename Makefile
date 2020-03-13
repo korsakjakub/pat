@@ -1,8 +1,6 @@
-SRC := $(shell go list ./... | grep -v /vendor)
-
 .PHONY: test
 test:
-	go test $(SRC)
+	go test
 
 BINARY := pat
 MAIN := main.go
