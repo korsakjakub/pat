@@ -45,10 +45,8 @@ func TestGetHand(t *testing.T) {
 }
 
 func TestWinningHand(t *testing.T) {
-	deck := NewDeck()
-	a := Deck([]Card{deck[21], deck[22], deck[23], deck[24], deck[25]})
-
-	b := Deck([]Card{deck[18], deck[19], deck[20], deck[21], deck[22]})
+	a := Deck([]Card{NewCard(S, _2), NewCard(D, _3), NewCard(D, _2), NewCard(C, _J), NewCard(H, _A)})
+	b := Deck([]Card{NewCard(S, _3), NewCard(H, _3), NewCard(D, _3), NewCard(C, _J), NewCard(H, _A)})
 
 	t.Log(WinningHand(a, b))
 }
