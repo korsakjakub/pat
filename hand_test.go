@@ -5,7 +5,7 @@ import (
 )
 
 func TestGetHand(t *testing.T) {
-	var test_values = []struct {
+	var testValues = []struct {
 		player Deck     // input from player
 		table  Deck     // input from table
 		want   Category // output
@@ -37,7 +37,7 @@ func TestGetHand(t *testing.T) {
 		},
 	}
 
-	for _, el := range test_values {
+	for _, el := range testValues {
 		if check := GetHand(el.player, el.table); check.Category != el.want {
 			t.Errorf("didn't get the expected Hand!. Got %s, expected %s\n", check, el.want)
 		}

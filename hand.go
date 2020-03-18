@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-// Hand - Possible Hands that a Player can get
+// Category - Possible Hands Categories that a Player can get
 type Category int
 
 const (
@@ -22,6 +22,7 @@ const (
 	RoyalFlush
 )
 
+// Hand is just a Category with a Rank. We first compare Categories, then Ranks.
 type Hand struct {
 	Category Category
 	Rank     int
@@ -73,9 +74,8 @@ func checkHands(cards Deck) Hand {
 		if isStraight(cards) {
 			if cards[0].Suit == S {
 				return Hand{Category: RoyalFlush}
-			} else {
-				return Hand{Category: StraightFlush}
 			}
+			return Hand{Category: StraightFlush}
 		} else {
 			return Hand{Category: Flush}
 		}
@@ -127,6 +127,7 @@ func getBestFive(cards Deck) Deck {
 	return cards
 }
 
+// GetHand returns a hand provided cards from a player and the table
 func GetHand(player, table Deck) Hand {
 	cards := Deck{}
 	switch phase := len(table); phase {
@@ -141,6 +142,7 @@ func GetHand(player, table Deck) Hand {
 	return checkHands(cards)
 }
 
-func WinningHand(a Deck, b Deck) *Deck {
+// WinningHand returns the winning hand
+func WinningHand(a, b Deck) *Deck {
 	return &Deck{}
 }
