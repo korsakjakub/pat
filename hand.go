@@ -9,6 +9,7 @@ import (
 // Category - Possible Hands Categories that a Player can get
 type Category int
 
+// All the hand categories in standard poker
 const (
 	High Category = iota
 	Pair
@@ -76,9 +77,8 @@ func checkHands(cards Deck) Hand {
 				return Hand{Category: RoyalFlush}
 			}
 			return Hand{Category: StraightFlush}
-		} else {
-			return Hand{Category: Flush}
 		}
+		return Hand{Category: Flush}
 	}
 
 	// there only can be a straight that is not a Royal (or a straight) Flush

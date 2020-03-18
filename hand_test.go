@@ -52,7 +52,7 @@ func TestWinningHand(t *testing.T) {
 }
 
 func TestMapCardOccurrences(t *testing.T) {
-	var test_values = []struct {
+	var testValues = []struct {
 		cards    Deck // input from player
 		position Index
 		amount   int // output
@@ -84,7 +84,7 @@ func TestMapCardOccurrences(t *testing.T) {
 		},
 	}
 
-	for _, e := range test_values {
+	for _, e := range testValues {
 		got := mapCardOccurrences(e.cards)
 		if got[e.position] != e.amount {
 			t.Errorf("didnt get the map i wanted. Got %v, wanted %d\n", got[e.position], e.amount)
