@@ -35,7 +35,7 @@ func TestShuffle(t *testing.T) {
 func TestDraw(t *testing.T) {
 	deck := NewDeck()
 	drawnCards := deck.Draw(3)
-	expectedCards := Deck([]Card{Card{Suit: D, Index: _Q}, Card{Suit: D, Index: _K}, Card{Suit: D, Index: _A}})
+	expectedCards := Deck([]Card{{Suit: D, Index: _Q}, {Suit: D, Index: _K}, {Suit: D, Index: _A}})
 	if len(drawnCards) != 3 {
 		t.Errorf("\n The lengths dont match (got %d, expected %d)\n", len(drawnCards), 3)
 	} else {
