@@ -124,7 +124,7 @@ func getBestFive(cards Deck) Deck {
 	if len(cards) <= 5 {
 		return cards
 	}
-
+	return cards
 }
 
 func GetHand(player, table Deck) Hand {
