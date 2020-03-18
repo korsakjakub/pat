@@ -120,8 +120,11 @@ func checkHands(cards Deck) Hand {
 	return Hand{Category: High}
 }
 
-func getBestFive(cards []Card) []Card {
-	return []Card{}
+func getBestFive(cards Deck) Deck {
+	if len(cards) <= 5 {
+		return cards
+	}
+
 }
 
 func GetHand(player, table Deck) Hand {

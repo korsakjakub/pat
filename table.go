@@ -16,8 +16,10 @@ func NewTable(p []Player, s Settings) (*Table, error) {
 	if len(p) < 1 {
 		err = errors.New("You need players in a table.")
 	}
-	return &Table{Players: p,
+	return &Table{
+		Players:    p,
 		TableCards: Deck{},
 		Deck:       NewDeck(),
-		Settings:   s}, err
+		Settings:   s,
+	}, err
 }
