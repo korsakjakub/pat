@@ -87,37 +87,39 @@ func checkHands(cards Deck) Hand {
 	}
 
 	occurrences := mapCardOccurrences(cards)
-	switch occurrences {
 
+	hasTrips := false
+	hasPairs := []Index{}
+
+	for index := range occurrences {
+		switch occurrences[index] {
+		case 4:
+			return Hand{Category: Quads}
+		case 3:
+			hasTrips = true
+		case 2:
+			hasPairs = append(hasPairs, index)
+		}
 	}
 
-	// if there are quads
-	if len(occurrences) == 2 {
-		return Hand{Category: Quads}
+	if hasTrips {
+		switch len(hasPairs) {
+		case 0:
+			return Hand{Category: Trips}
+		case 1:
+			return Hand{Category: FullHouse}
+		}
+	} else {
+		switch len(hasPairs) {
+		case 0:
+			return Hand{Category: High}
+		case 1:
+			return Hand{Category: Pair}
+		case 2:
+			return Hand{Category: TwoPair}
+		}
 	}
-
-	/*
-		// if there is a full house
-		if isFullHouse(cards) {
-			return FullHouse
-		}
-
-		// if there are trips
-		if isTrips(cards) {
-			return Trips
-		}
-
-		// if there are two pairs
-		if isTwoPair(cards) {
-			return TwoPair
-		}
-
-		// if there is a pair
-		if isPair(cards) {
-			return Pair
-		}
-	*/
-	return Hand{Category: High}
+	return Hand{}
 }
 
 func getBestFive(cards Deck) Deck {
@@ -140,9 +142,4 @@ func GetHand(player, table Deck) Hand {
 		cards = getBestFive(append(player, table...))
 	}
 	return checkHands(cards)
-}
-
-// WinningHand returns the winning hand
-func WinningHand(a, b Deck) *Deck {
-	return &Deck{}
 }

@@ -35,6 +35,31 @@ func TestGetHand(t *testing.T) {
 			Deck([]Card{NewCard(D, _6), NewCard(D, _3), NewCard(D, _5)}),
 			Straight,
 		},
+		{
+			Deck([]Card{NewCard(S, _2), NewCard(C, _2)}),
+			Deck([]Card{NewCard(D, _2), NewCard(H, _2), NewCard(D, _5)}),
+			Quads,
+		},
+		{
+			Deck([]Card{NewCard(S, _2), NewCard(C, _2)}),
+			Deck([]Card{NewCard(D, _3), NewCard(H, _2), NewCard(D, _5)}),
+			Trips,
+		},
+		{
+			Deck([]Card{NewCard(S, _2), NewCard(C, _2)}),
+			Deck([]Card{NewCard(D, _3), NewCard(H, _2), NewCard(H, _3)}),
+			FullHouse,
+		},
+		{
+			Deck([]Card{NewCard(S, _2), NewCard(C, _2)}),
+			Deck([]Card{NewCard(D, _5), NewCard(H, _7), NewCard(H, _J)}),
+			Pair,
+		},
+		{
+			Deck([]Card{NewCard(S, _2), NewCard(C, _2)}),
+			Deck([]Card{NewCard(D, _3), NewCard(H, _K), NewCard(H, _3)}),
+			TwoPair,
+		},
 	}
 
 	for _, el := range testValues {
@@ -45,10 +70,10 @@ func TestGetHand(t *testing.T) {
 }
 
 func TestWinningHand(t *testing.T) {
-	a := Deck([]Card{NewCard(S, _2), NewCard(D, _3), NewCard(D, _2), NewCard(C, _J), NewCard(H, _A)})
-	b := Deck([]Card{NewCard(S, _3), NewCard(H, _3), NewCard(D, _3), NewCard(C, _J), NewCard(H, _A)})
+	//a := Deck([]Card{NewCard(S, _2), NewCard(D, _3), NewCard(D, _2), NewCard(C, _J), NewCard(H, _A)})
+	//b := Deck([]Card{NewCard(S, _3), NewCard(H, _3), NewCard(D, _3), NewCard(C, _J), NewCard(H, _A)})
 
-	t.Log(WinningHand(a, b))
+	//t.Log(WinningHand(a, b))
 }
 
 func TestMapCardOccurrences(t *testing.T) {
