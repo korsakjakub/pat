@@ -14,4 +14,9 @@ func TestNewTable(t *testing.T) {
 	} else {
 		t.Log(table)
 	}
+
+	if _, emptyErr := NewTable([]Player{}, Settings{}); emptyErr == nil {
+		t.Error("Expected an error")
+	}
+
 }
