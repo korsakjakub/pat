@@ -38,7 +38,7 @@ func (h Hand) String() string {
 	return fmt.Sprintf("%s, %s", h.Category, strconv.Itoa(h.Rank))
 }
 
-func isFlush(cards []Card) bool {
+func isFlush(cards Deck) bool {
 	suit := cards[0].Suit
 	for _, card := range cards {
 		if card.Suit != suit {
@@ -48,7 +48,7 @@ func isFlush(cards []Card) bool {
 	return true
 }
 
-func isStraight(cards []Card) bool {
+func isStraight(cards Deck) bool {
 	index := cards[0].Index
 	for _, card := range cards {
 		if index != card.Index {
@@ -59,7 +59,7 @@ func isStraight(cards []Card) bool {
 	return true
 }
 
-func mapCardOccurrences(cards []Card) map[Index]int {
+func mapCardOccurrences(cards Deck) map[Index]int {
 	occurrences := make(map[Index]int)
 	for _, ci := range cards {
 		occurrences[ci.Index]++
@@ -119,7 +119,7 @@ func checkHands(cards Deck) Hand {
 			return Hand{Category: TwoPair}
 		}
 	}
-	return Hand{}
+	return Hand{Category: High}
 }
 
 func getBestFive(cards Deck) Deck {

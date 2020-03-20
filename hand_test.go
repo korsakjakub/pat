@@ -1,8 +1,24 @@
 package pat
 
 import (
+	"fmt"
 	"testing"
 )
+
+func TestStrings(t *testing.T) {
+	categories := []Category{Straight, Pair, TwoPair}
+	want := []string{"Straight", "Pair", "Two pairs"}
+	for i, cat := range categories {
+		got := fmt.Sprintf("%s", cat)
+		if got != want[i] {
+			t.Errorf("Wanted %s, got %s\n", want[i], got)
+		}
+	}
+
+	if fmt.Sprintf("%s", Hand{Category: FullHouse, Rank: 10}) != "Full House, 10" {
+		t.Error("improper string representation")
+	}
+}
 
 func TestGetHand(t *testing.T) {
 	var testValues = []struct {
@@ -59,6 +75,11 @@ func TestGetHand(t *testing.T) {
 			Deck([]Card{NewCard(S, _2), NewCard(C, _2)}),
 			Deck([]Card{NewCard(D, _3), NewCard(H, _K), NewCard(H, _3)}),
 			TwoPair,
+		},
+		{
+			Deck([]Card{NewCard(S, _2), NewCard(C, _9)}),
+			Deck([]Card{NewCard(D, _3), NewCard(H, _K), NewCard(H, _A)}),
+			High,
 		},
 	}
 
