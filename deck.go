@@ -37,6 +37,15 @@ const (
 	_A
 )
 
+func max(indices []Index) (out Index) {
+	for _, i := range indices {
+		if i > out {
+			out = i
+		}
+	}
+	return
+}
+
 // SuitEnumerate gives all suits as a slice
 func SuitEnumerate() []Suit {
 	var res []Suit
@@ -136,6 +145,16 @@ func (d Deck) Shuffle(s ...int64) {
 	}
 	rand.Seed(seed)
 	rand.Shuffle(len(d), func(i, j int) { d[i], d[j] = d[j], d[i] })
+}
+
+func (d Deck) Max() Index {
+	var maxIndex Index
+	for i, e := range d {
+		if i == 0 || e.Index >= maxIndex {
+			maxIndex = e.Index
+		}
+	}
+	return maxIndex
 }
 
 func (d Deck) Len() int { return len(d) }

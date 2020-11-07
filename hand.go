@@ -1,17 +1,15 @@
 package pat
 
 import (
-	"fmt"
 	"sort"
-	"strconv"
 )
 
-// Category - Possible Hands Categories that a Player can get
-type Category int
+// category - Possible Hands Categories that a Player can get
+type category int
 
 // All the hand categories in standard poker
 const (
-	High Category = iota
+	High category = iota
 	Pair
 	TwoPair
 	Trips
@@ -23,19 +21,46 @@ const (
 	RoyalFlush
 )
 
-// Hand is just a Category with a Rank. We first compare Categories, then Ranks.
+type Equivalence int
+
+const (
+	worse Equivalence = iota
+	better
+	equal
+)
+
+func (e Equivalence) String() string {
+	return []string{"worse", "better", "equal"}[e]
+}
+
+// Hand is just a category with a rank. We first compare Categories, then ranks.
 type Hand struct {
-	Category Category
-	Rank     int
+	category
+	high  Card
+	sHigh Card
 }
 
-// Category String representation
-func (c Category) String() string {
+// IsBetterThan decides i
+func (h Hand) IsBetterThan(o Hand) Equivalence {
+	if h.category == o.category && h.high.Index == o.high.Index && h.sHigh.Index == o.sHigh.Index {
+		return equal
+	}
+	if h.category < o.category {
+		return worse
+	} else if h.category == o.category {
+		if h.high.Index < o.high.Index {
+			return worse
+		}
+		if h.sHigh.Index < o.sHigh.Index {
+			return worse
+		}
+	}
+	return better
+}
+
+// category String representation
+func (c category) String() string {
 	return []string{"High card", "Pair", "Two pairs", "Trips", "Straight", "Flush", "Full House", "Quads", "Straight Flush", "Royal Flush"}[c]
-}
-
-func (h Hand) String() string {
-	return fmt.Sprintf("%s, %s", h.Category, strconv.Itoa(h.Rank))
 }
 
 func isFlush(cards Deck) bool {
@@ -48,23 +73,35 @@ func isFlush(cards Deck) bool {
 	return true
 }
 
-func isStraight(cards Deck) bool {
+func isStraight(cards Deck) (bool, Card) {
 	index := cards[0].Index
 	for _, card := range cards {
 		if index != card.Index {
-			return false
+			return false, Card{}
 		}
 		index++
 	}
-	return true
+	return true, cards[len(cards)-1]
 }
 
-func mapCardOccurrences(cards Deck) map[Index]int {
-	occurrences := make(map[Index]int)
-	for _, ci := range cards {
-		occurrences[ci.Index]++
+type occurrences map[Index]int
+
+func (o occurrences) findIndex(i int) []Index {
+	var out []Index
+	for k := range o {
+		if o[k] == i {
+			out = append(out, k)
+		}
 	}
-	return occurrences
+	return out
+}
+
+func mapCards(cards Deck) occurrences {
+	o := make(occurrences)
+	for _, ci := range cards {
+		o[ci.Index]++
+	}
+	return o
 }
 
 func checkHands(cards Deck) Hand {
@@ -72,54 +109,52 @@ func checkHands(cards Deck) Hand {
 
 	// check flush, straight flush and royal flush. Note: a flush discriminates any pairs, trips or quads!
 	if isFlush(cards) {
-		if isStraight(cards) {
+		if isIt, high := isStraight(cards); isIt {
 			if cards[0].Suit == S {
-				return Hand{Category: RoyalFlush}
+				return Hand{category: RoyalFlush, high: high}
 			}
-			return Hand{Category: StraightFlush}
+			return Hand{category: StraightFlush, high: cards[len(cards)-1]}
 		}
-		return Hand{Category: Flush}
+		return Hand{category: Flush, high: cards[len(cards)-1]}
 	}
 
 	// there only can be a straight that is not a Royal (or a straight) Flush
-	if isStraight(cards) {
-		return Hand{Category: Straight}
+	if isIt, high := isStraight(cards); isIt {
+		return Hand{category: Straight, high: high}
 	}
 
-	occurrences := mapCardOccurrences(cards)
+	o := mapCards(cards)
 
-	hasTrips := false
-	hasPairs := []Index{}
+	trips := []Index{}
+	pairs := []Index{}
 
-	for index := range occurrences {
-		switch occurrences[index] {
+	for index := range o {
+		switch o[index] {
 		case 4:
-			return Hand{Category: Quads}
+			return Hand{category: Quads, high: NewCard(S, index)}
 		case 3:
-			hasTrips = true
+			trips = append(trips, index)
 		case 2:
-			hasPairs = append(hasPairs, index)
+			pairs = append(pairs, index)
 		}
 	}
 
-	if hasTrips {
-		switch len(hasPairs) {
+	if len(trips) > 0 {
+		switch len(pairs) {
 		case 0:
-			return Hand{Category: Trips}
+			return Hand{category: Trips, high: NewCard(S, trips[0])}
 		case 1:
-			return Hand{Category: FullHouse}
+			return Hand{category: FullHouse, high: NewCard(S, max(trips)), sHigh: NewCard(S, max(pairs))}
 		}
 	} else {
-		switch len(hasPairs) {
-		case 0:
-			return Hand{Category: High}
+		switch len(pairs) {
 		case 1:
-			return Hand{Category: Pair}
+			return Hand{category: Pair, high: NewCard(S, pairs[0])}
 		case 2:
-			return Hand{Category: TwoPair}
+			return Hand{category: TwoPair, high: NewCard(S, max(pairs))}
 		}
 	}
-	return Hand{Category: High}
+	return Hand{category: High, high: cards[len(cards)-1]}
 }
 
 func getBestFive(cards Deck) Deck {

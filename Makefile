@@ -9,6 +9,7 @@ MAIN := main.go
 linux:
 	mkdir -p build
 	go build -o build/$(BINARY) cmd/$(MAIN)
+	chmod +x build/$(BINARY)
 
 .PHONY: build
 build: test linux
